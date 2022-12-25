@@ -235,6 +235,7 @@ class RoborockMqttClient:
         client.on_connect = on_connect
         client.on_message = on_message
         client.on_disconnect = on_disconnect
+        client.enable_logger(_LOGGER)
 
         if self._mqtt_ssl:
             client.tls_set()

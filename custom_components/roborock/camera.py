@@ -112,7 +112,7 @@ class VacuumCameraMap(RoborockCoordinatedEntity, Camera):
     @property
     def should_poll(self) -> bool:
         """Return polling enabled."""
-        return self._should_poll and (not self._image or self._valid_refresh_state())
+        return self._should_poll
 
     @staticmethod
     def extract_attributes(
@@ -164,6 +164,9 @@ class VacuumCameraMap(RoborockCoordinatedEntity, Camera):
 
     async def async_update(self) -> None:
         """Handle map image update."""
+        if self._image and not self._valid_refresh_state():
+            return
+
         try:
             await self._handle_map_data()
         except Exception as err:
